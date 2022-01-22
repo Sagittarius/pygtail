@@ -120,10 +120,15 @@ class Pygtail(object):
                 except StopIteration:  # oops, empty file
                     self._update_offset_file()
                     raise
+                except UnicodeDecodeError:
+                # ignore decode exception
+                    pass
             else:
                 self._update_offset_file()
                 raise
-
+        except UnicodeDecodeError:
+            # ignore decode exception
+            pass
         if self.paranoid:
             self._update_offset_file()
         elif self.every_n and self.every_n <= self._since_update:
